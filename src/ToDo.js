@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const ToDo = () => {
+  const now = moment();
   let textInput = React.createRef();
   let timeInput = React.createRef();
+  const [showForm, setShowForm] = useState(false);
   const [todos, setTodos] = useState([
     {
       text: "buy post it notes",
@@ -48,38 +50,101 @@ const ToDo = () => {
 
   return (
     <ToDos>
-      <InputLine onSubmit={addItem}>
-        <input
-          type="text"
-          className="input"
-          placeholder="New Todo"
-          ref={textInput}
-        />
-        <input type="time" ref={timeInput} value="00:00" />
-        <input type="submit" value="+" />
-      </InputLine>
-      {todos.map((todo, index) => (
-        <ToDoItem onClick={() => toggleItem(index)}>
-          <span>
-            {todo.completed ? "☑" : "☐"}
-            {todo.text}
-          </span>
-          <span> {todo.due.format("HH:MM A")}</span>
-        </ToDoItem>
-      ))}
+      <Header>
+        <HeaderLeft>
+          <HeaderDate>{now.format("dddd, Do")}</HeaderDate>
+          <HeaderSubDate>{now.format("MMMM")}</HeaderSubDate>
+        </HeaderLeft>
+        <HeaderRight>
+          <HeaderSubDate>{`${todos.length} tasks`}</HeaderSubDate>
+        </HeaderRight>
+      </Header>
+      <AddToDoButton onClick={() => setShowForm(!showForm)}>
+        {showForm ? "-" : "+"}
+      </AddToDoButton>
+
+      {showForm && (
+        <InputLine onSubmit={addItem}>
+          <input
+            type="text"
+            className="input"
+            placeholder="New Todo"
+            ref={textInput}
+          />
+          <input type="time" ref={timeInput} value="00:00" />
+          <input type="submit" value="+" />
+        </InputLine>
+      )}
+
+      <TodoContainer>
+        {todos.map((todo, index) => (
+          <ToDoItem onClick={() => toggleItem(index)}>
+            <span>
+              {todo.completed ? "☑" : "☐"}
+              {todo.text}
+            </span>
+            <span> {todo.due.format("HH:MM A")}</span>
+          </ToDoItem>
+        ))}
+      </TodoContainer>
     </ToDos>
   );
 };
 
+const TodoContainer = styled.div`
+  margin-top: 20px;
+`;
+
 const ToDos = styled.div`
-  //   border: 1px solid black;
-  width: 30%;
+  width: 500px;
   margin: 100px auto;
+  background-color: white;
+  margin-top: 200px;
+  position: relative;
+`;
+
+const Header = styled.div`
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid rgb(182, 182, 182);
+`;
+
+const HeaderRight = styled.div`
+  padding-top: 30px;
+`;
+
+const HeaderLeft = styled.div`
+  padding: 20px;
+`;
+
+const HeaderDate = styled.div`
+  color: rgb(90, 99, 223);
+  text-align: left;
+  font-size: 1.5rem;
+  font-weight: bold;
+`;
+const HeaderSubDate = styled.div`
+  color: rgb(182, 182, 182);
+  text-align: left;
+`;
+const AddToDoButton = styled.div`
+  width: 40px;
+  height: 40px;
+  background-color: pink;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  top: 105px;
 `;
 
 const ToDoItem = styled.div`
   text-align: left;
-  border: 1px solid gray;
+  border-bottom: 1px solid rgb(182, 182, 182);
   padding: 20px;
   display: flex;
   justify-content: space-between;
@@ -87,7 +152,7 @@ const ToDoItem = styled.div`
 
 const InputLine = styled.form`
   text-align: left;
-  border: 1px solid gray;
+  border-bottom: 1px solid rgb(182, 182, 182);
   padding: 20px;
 
   & .input {
