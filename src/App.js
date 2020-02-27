@@ -1,8 +1,5 @@
 import React from "react";
-import logo from "./logo.svg";
-// import './App.css';
 import styled from "styled-components";
-import MyComponent from "./MyComponent";
 import ToDo from "./ToDo";
 
 class App extends React.Component {
