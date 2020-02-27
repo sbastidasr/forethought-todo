@@ -3,20 +3,14 @@ import logo from "./logo.svg";
 // import './App.css';
 import styled from "styled-components";
 import MyComponent from "./MyComponent";
+import ToDo from "./ToDo";
 
 class App extends React.Component {
   render() {
     return (
       <React.Fragment>
         <AppContainer>
-          <AppHeader>
-            <AppLogo src={logo} alt="logo" />
-            <AppTitle>Welcome to React</AppTitle>
-          </AppHeader>
-          <AppIntro>
-            To get started, edit <code>src/App.js</code> and save.
-          </AppIntro>
-          <MyComponent />
+          <ToDo />
         </AppContainer>
       </React.Fragment>
     );
