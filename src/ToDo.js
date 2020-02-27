@@ -81,12 +81,15 @@ const ToDo = () => {
           <ToDoItem onClick={() => toggleItem(index)}>
             <span>
               {todo.completed ? "☑" : "☐"}
-              {todo.text}
+              <span className={todo.completed ? "line-through" : ""}>
+                {todo.text}
+              </span>
             </span>
             <span> {todo.due.format("HH:MM A")}</span>
           </ToDoItem>
         ))}
       </TodoContainer>
+      <div style={{ height: "20px" }} />
     </ToDos>
   );
 };
@@ -101,6 +104,7 @@ const ToDos = styled.div`
   background-color: white;
   margin-top: 200px;
   position: relative;
+  border-radius: 20px;
 `;
 
 const Header = styled.div`
@@ -148,6 +152,10 @@ const ToDoItem = styled.div`
   padding: 20px;
   display: flex;
   justify-content: space-between;
+
+  & .line-through {
+    text-decoration: line-through;
+  }
 `;
 
 const InputLine = styled.form`
