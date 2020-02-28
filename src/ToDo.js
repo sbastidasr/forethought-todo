@@ -86,22 +86,34 @@ const ToDo = () => {
 
       <TodoContainer>
         {todos.map((todo, index) => (
-          <ToDoItem onClick={() => toggleItem(index)}>
-            <span>
-              <input type="checkbox" checked={todo.completed} />
-
+          <ToDoItem
+            onClick={() => toggleItem(index)}
+            completed={todo.completed}
+          >
+            <span className={todo.completed ? "completed" : ""}>
+              <CheckBox type="checkbox" checked={todo.completed} />
               <span className={todo.completed ? "line-through" : ""}>
                 {todo.text}
               </span>
             </span>
-            <span> {todo.due.format("HH:MM A")}</span>
+            <RightDate> {todo.due.format("HH:MM A")}</RightDate>
           </ToDoItem>
         ))}
       </TodoContainer>
-      <div style={{ height: "20px" }} />
+      <div style={{ height: "30px" }} />
     </ToDos>
   );
 };
+
+const RightDate = styled.div`
+  color: rgb(182, 182, 182);
+  font-size: 0.7rem;
+  line-height: 1rem;
+`;
+
+const CheckBox = styled.input`
+  margin-right: 20px;
+`;
 
 const TodoContainer = styled.div`
   margin-top: 20px;
@@ -164,10 +176,12 @@ const AddToDoButton = styled.div`
 
 const ToDoItem = styled.div`
   text-align: left;
-  border-bottom: 1px solid rgb(182, 182, 182);
+  border-bottom: 1px solid rgb(235, 235, 235);
   padding: 20px;
   display: flex;
   justify-content: space-between;
+
+  ${props => (props.completed ? "color: rgb(182, 182, 182);" : "")}
 
   & .line-through {
     text-decoration: line-through;

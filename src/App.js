@@ -14,7 +14,7 @@ class App extends React.Component {
 }
 const AppContainer = styled.div`
   text-align: center;
-  // background-color: rgb(90, 99, 223);
+  background-color: rgb(90, 99, 223);
   width: 100%;
   height: 100%;
   position: fixed;
