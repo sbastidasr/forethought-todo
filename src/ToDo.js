@@ -33,7 +33,6 @@ const ToDo = () => {
   const toggleItem = index => {
     const todosCopy = [...todos];
     todosCopy[index].completed = !todosCopy[index].completed;
-    console.log("toggle", index, todosCopy);
     setTodos(todosCopy);
   };
 
@@ -79,7 +78,7 @@ const ToDo = () => {
             placeholder="New Todo"
             ref={textInput}
           />
-          <input type="time" ref={timeInput} value="00:00" />
+          <input type="time" ref={timeInput} defaultValue="00:00" />
           <input className="add-button" type="submit" value="+" />
         </InputForm>
       )}
