@@ -52,7 +52,10 @@ const ToDo = () => {
     <ToDos>
       <Header>
         <HeaderLeft>
-          <HeaderDate>{now.format("dddd, Do")}</HeaderDate>
+          <HeaderDate>
+            <span> {now.format("dddd,")} </span>
+            <span className="light">{now.format("Do")}</span>
+          </HeaderDate>
           <HeaderSubDate>{now.format("MMMM")}</HeaderSubDate>
         </HeaderLeft>
         <HeaderRight>
@@ -99,35 +102,42 @@ const TodoContainer = styled.div`
 `;
 
 const ToDos = styled.div`
-  width: 500px;
+  width: 430px;
   margin: 100px auto;
   background-color: white;
   margin-top: 200px;
   position: relative;
-  border-radius: 20px;
+  border-radius: 8px;
 `;
 
 const Header = styled.div`
-  padding: 20px;
+  padding: 25px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-bottom: 1px solid rgb(182, 182, 182);
+  border-bottom: 1px solid rgb(240, 240, 240);
+  background-color: rgb(252, 252, 254);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 `;
 
 const HeaderRight = styled.div`
-  padding-top: 30px;
+  padding-top: 5px;
 `;
 
 const HeaderLeft = styled.div`
-  padding: 20px;
+  // padding: 20px;
 `;
 
 const HeaderDate = styled.div`
   color: rgb(90, 99, 223);
   text-align: left;
   font-size: 1.5rem;
-  font-weight: bold;
+  margin-bottom: 10px;
+
+  & .light {
+    font-weight: 100;
+  }
 `;
 const HeaderSubDate = styled.div`
   color: rgb(182, 182, 182);
