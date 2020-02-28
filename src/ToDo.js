@@ -4,8 +4,10 @@ import styled from "styled-components";
 
 const ToDo = () => {
   const now = moment();
-  let textInput = React.createRef();
-  let timeInput = React.createRef();
+
+  const [timeInput, setTimeInput] = useState("00:00");
+  const [textInput, setTextInput] = useState("");
+
   const [showForm, setShowForm] = useState(false);
   const [todos, setTodos] = useState([
     {
@@ -30,26 +32,40 @@ const ToDo = () => {
     }
   ]);
 
-  const toggleItem = index => {
+  const toggleItem = (e, index) => {
+    e.stopPropagation();
     const todosCopy = [...todos];
     todosCopy[index].completed = !todosCopy[index].completed;
+    setTodos(todosCopy);
+  };
+  const editItem = index => {
+    const edit = todos[index];
+    setShowForm(true);
+    setTextInput(edit.text);
+
+    setTimeInput(edit.due.format("HH:mm"));
+    const todosCopy = todos.filter((e, i) => i !== index);
     setTodos(todosCopy);
   };
 
   const addItem = e => {
     e.preventDefault();
-    const value = textInput.current.value;
-
+    if (!textInput.length) {
+      setShowForm(false);
+      return;
+    }
     const todosCopy = [
       ...todos,
       {
-        text: value,
+        text: textInput,
         completed: false,
-        due: moment(timeInput.current.value, "hh:mm")
+        due: moment(timeInput, "HH:mm")
       }
     ];
-    textInput.current.value = "";
+    setTextInput("");
+    setTimeInput("00:00");
     setTodos(todosCopy);
+    setShowForm(false);
   };
 
   return (
@@ -76,21 +92,32 @@ const ToDo = () => {
             type="text"
             className="input"
             placeholder="New Todo"
-            ref={textInput}
+            value={textInput}
+            onChange={e => setTextInput(e.target.value)}
           />
-          <input type="time" ref={timeInput} defaultValue="00:00" />
-          <input className="add-button" type="submit" value="+" />
+          <input
+            type="time"
+            value={timeInput}
+            onChange={e => setTimeInput(e.target.value)}
+          />
+          <input className="add-button" type="submit" value="Save" />
         </InputForm>
       )}
 
       <TodoContainer>
         {todos.map((todo, index) => (
           <ToDoItem
-            onClick={() => toggleItem(index)}
+            onClick={() => editItem(index)}
             completed={todo.completed}
+            key={index}
           >
             <span className={todo.completed ? "completed" : ""}>
-              <CheckBox type="checkbox" checked={todo.completed} />
+              <CheckBox
+                type="checkbox"
+                checked={todo.completed}
+                onClick={e => toggleItem(e, index)}
+                readOnly
+              />
               <span className={todo.completed ? "line-through" : ""}>
                 {todo.text}
               </span>
