@@ -9,17 +9,22 @@ const ToDo = () => {
   const [showForm, setShowForm] = useState(false);
   const [todos, setTodos] = useState([
     {
-      text: "buy post it notes",
-      completed: false,
+      text: "Morning Run",
+      completed: true,
       due: moment("2020-01-22T05:00:00Z")
     },
     {
-      text: "finish css ",
-      completed: true,
+      text: "Buy Pizza on the way to work",
+      completed: false,
       due: moment("2020-01-05T22:00:00Z")
     },
     {
-      text: "make it pixel-perfect",
+      text: "10AM Meeting",
+      completed: false,
+      due: moment("2020-01-17T08:00:00Z")
+    },
+    {
+      text: "Work Lunch with the dudes",
       completed: false,
       due: moment("2020-01-17T08:00:00Z")
     }
@@ -83,7 +88,8 @@ const ToDo = () => {
         {todos.map((todo, index) => (
           <ToDoItem onClick={() => toggleItem(index)}>
             <span>
-              {todo.completed ? "☑" : "☐"}
+              <input type="checkbox" checked={todo.completed} />
+
               <span className={todo.completed ? "line-through" : ""}>
                 {todo.text}
               </span>
