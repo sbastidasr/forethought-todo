@@ -6,7 +6,7 @@ const ToDo = () => {
   const now = moment();
   let textInput = React.createRef();
   let timeInput = React.createRef();
-  const [showForm, setShowForm] = useState(true);
+  const [showForm, setShowForm] = useState(false);
   const [todos, setTodos] = useState([
     {
       text: "Morning Run",
