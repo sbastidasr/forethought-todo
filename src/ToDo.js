@@ -6,7 +6,7 @@ const ToDo = () => {
   const now = moment();
   let textInput = React.createRef();
   let timeInput = React.createRef();
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(true);
   const [todos, setTodos] = useState([
     {
       text: "Morning Run",
@@ -72,7 +72,7 @@ const ToDo = () => {
       </AddToDoButton>
 
       {showForm && (
-        <InputLine onSubmit={addItem}>
+        <InputForm onSubmit={addItem}>
           <input
             type="text"
             className="input"
@@ -80,8 +80,8 @@ const ToDo = () => {
             ref={textInput}
           />
           <input type="time" ref={timeInput} value="00:00" />
-          <input type="submit" value="+" />
-        </InputLine>
+          <input className="add-button" type="submit" value="+" />
+        </InputForm>
       )}
 
       <TodoContainer>
@@ -140,7 +140,7 @@ const Header = styled.div`
 `;
 
 const HeaderRight = styled.div`
-  padding-top: 5px;
+  padding-top: 10px;
 `;
 
 const HeaderLeft = styled.div`
@@ -170,8 +170,10 @@ const AddToDoButton = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  right: 0;
-  top: 105px;
+  right: 20px;
+  top: 85px;
+  color: white;
+  background-color: rgb(234, 116, 109);
 `;
 
 const ToDoItem = styled.div`
@@ -188,13 +190,24 @@ const ToDoItem = styled.div`
   }
 `;
 
-const InputLine = styled.form`
+const InputForm = styled.form`
   text-align: left;
-  border-bottom: 1px solid rgb(182, 182, 182);
+  border-bottom: 1px solid rgb(240, 240, 240);
   padding: 20px;
-
+  display: flex;
+  height: 100%;
+  & input {
+    padding: 5px;
+    font-size: 0.8rem;
+  }
   & .input {
-    width: calc(100% - 110px);
+    width: calc(100% - 120px);
+  }
+
+  & .add-button {
+    margin-top: 5px;
+    margin-left: 10px;
+    display: inline-block;
   }
 `;
 
