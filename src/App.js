@@ -16,7 +16,7 @@ class App extends React.Component {
               Editing happens in the same form as creating (to show basic
               editing functionality. Will do it in a modal)
             </li>
-            <li>Styles and Responsiveness not finished either</li>
+
             <li>Will also add better component structure</li>
           </ul>
         </Notes>
@@ -31,6 +31,7 @@ const AppContainer = styled.div`
   height: 100%;
   position: fixed;
   background-image: url("background.svg");
+  background-size: cover;
 `;
 const Notes = styled.div`
   width: 430px;

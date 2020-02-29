@@ -1,36 +1,14 @@
 import moment from "moment";
 import React, { useState } from "react";
 import styled from "styled-components";
+import defaultTodos from "./defaultTodos";
+const now = moment();
 
 const ToDo = () => {
-  const now = moment();
-
   const [timeInput, setTimeInput] = useState("00:00");
   const [textInput, setTextInput] = useState("");
-
   const [showForm, setShowForm] = useState(false);
-  const [todos, setTodos] = useState([
-    {
-      text: "Morning Run",
-      completed: true,
-      due: moment("2020-01-22T05:00:00Z")
-    },
-    {
-      text: "Buy Pizza on the way to work",
-      completed: false,
-      due: moment("2020-01-05T22:00:00Z")
-    },
-    {
-      text: "10AM Meeting",
-      completed: false,
-      due: moment("2020-01-17T08:00:00Z")
-    },
-    {
-      text: "Work Lunch with the dudes",
-      completed: false,
-      due: moment("2020-01-17T08:00:00Z")
-    }
-  ]);
+  const [todos, setTodos] = useState(defaultTodos);
 
   const toggleItem = (e, index) => {
     e.stopPropagation();
@@ -71,13 +49,13 @@ const ToDo = () => {
   return (
     <ToDos>
       <Header>
-        <HeaderLeft>
+        <div>
           <HeaderDate>
             <span> {now.format("dddd,")} </span>
             <span className="light">{now.format("Do")}</span>
           </HeaderDate>
           <HeaderSubDate>{now.format("MMMM")}</HeaderSubDate>
-        </HeaderLeft>
+        </div>
         <HeaderRight>
           <HeaderSubDate>{`${todos.length} tasks`}</HeaderSubDate>
         </HeaderRight>
@@ -131,27 +109,33 @@ const ToDo = () => {
   );
 };
 
+// MAIN CONTAINER
+
+const ToDos = styled.div`
+  width: 90%;
+
+  background-color: white;
+  margin: 100px auto 40px auto;
+  position: relative;
+  border-radius: 8px;
+
+  max-width: 700px;
+
+  @media (min-width: 600px) {
+    width: 75%;
+  }
+`;
+
+// HEADER
+
 const RightDate = styled.div`
   color: rgb(182, 182, 182);
   font-size: 0.7rem;
   line-height: 1rem;
 `;
 
-const CheckBox = styled.input`
-  margin-right: 20px;
-`;
-
 const TodoContainer = styled.div`
   margin-top: 20px;
-`;
-
-const ToDos = styled.div`
-  width: 430px;
-  margin: 100px auto;
-  background-color: white;
-  margin-top: 200px;
-  position: relative;
-  border-radius: 8px;
 `;
 
 const Header = styled.div`
@@ -169,10 +153,6 @@ const HeaderRight = styled.div`
   padding-top: 10px;
 `;
 
-const HeaderLeft = styled.div`
-  // padding: 20px;
-`;
-
 const HeaderDate = styled.div`
   color: rgb(90, 99, 223);
   text-align: left;
@@ -183,10 +163,12 @@ const HeaderDate = styled.div`
     font-weight: 100;
   }
 `;
+
 const HeaderSubDate = styled.div`
   color: rgb(182, 182, 182);
   text-align: left;
 `;
+
 const AddToDoButton = styled.div`
   width: 40px;
   height: 40px;
@@ -202,6 +184,8 @@ const AddToDoButton = styled.div`
   background-color: rgb(234, 116, 109);
 `;
 
+// TODO ITEMS
+
 const ToDoItem = styled.div`
   text-align: left;
   border-bottom: 1px solid rgb(235, 235, 235);
@@ -215,6 +199,12 @@ const ToDoItem = styled.div`
     text-decoration: line-through;
   }
 `;
+
+const CheckBox = styled.input`
+  margin-right: 20px;
+`;
+
+// TODO FORM
 
 const InputForm = styled.form`
   text-align: left;
