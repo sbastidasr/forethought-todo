@@ -2,28 +2,27 @@ import moment from "moment";
 import React, { useState } from "react";
 import styled from "styled-components";
 import defaultTodos from "./defaultTodos";
-const now = moment();
+import Header from "./Header";
 
 const ToDo = () => {
   const [timeInput, setTimeInput] = useState("00:00");
   const [textInput, setTextInput] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [todos, setTodos] = useState(defaultTodos);
+  const [toDos, setTodos] = useState(defaultTodos);
 
   const toggleItem = (e, index) => {
     e.stopPropagation();
-    const todosCopy = [...todos];
-    todosCopy[index].completed = !todosCopy[index].completed;
-    setTodos(todosCopy);
+    const toDosCopy = [...toDos];
+    toDosCopy[index].completed = !toDosCopy[index].completed;
+    setTodos(toDosCopy);
   };
   const editItem = index => {
-    const edit = todos[index];
+    const edit = toDos[index];
     setShowForm(true);
     setTextInput(edit.text);
-
     setTimeInput(edit.due.format("HH:mm"));
-    const todosCopy = todos.filter((e, i) => i !== index);
-    setTodos(todosCopy);
+    const toDosCopy = toDos.filter((_, i) => i !== index);
+    setTodos(toDosCopy);
   };
 
   const addItem = e => {
@@ -33,7 +32,7 @@ const ToDo = () => {
       return;
     }
     const todosCopy = [
-      ...todos,
+      ...toDos,
       {
         text: textInput,
         completed: false,
@@ -48,18 +47,7 @@ const ToDo = () => {
 
   return (
     <ToDos>
-      <Header>
-        <div>
-          <HeaderDate>
-            <span> {now.format("dddd,")} </span>
-            <span className="light">{now.format("Do")}</span>
-          </HeaderDate>
-          <HeaderSubDate>{now.format("MMMM")}</HeaderSubDate>
-        </div>
-        <HeaderRight>
-          <HeaderSubDate>{`${todos.length} tasks`}</HeaderSubDate>
-        </HeaderRight>
-      </Header>
+      <Header toDos={toDos} />
       <AddToDoButton onClick={() => setShowForm(!showForm)}>
         {showForm ? "-" : "+"}
       </AddToDoButton>
@@ -83,24 +71,24 @@ const ToDo = () => {
       )}
 
       <TodoContainer>
-        {todos.map((todo, index) => (
+        {toDos.map((toDo, index) => (
           <ToDoItem
             onClick={() => editItem(index)}
-            completed={todo.completed}
+            completed={toDo.completed}
             key={index}
           >
-            <span className={todo.completed ? "completed" : ""}>
+            <span className={toDo.completed ? "completed" : ""}>
               <CheckBox
                 type="checkbox"
-                checked={todo.completed}
+                checked={toDo.completed}
                 onClick={e => toggleItem(e, index)}
                 readOnly
               />
-              <span className={todo.completed ? "line-through" : ""}>
-                {todo.text}
+              <span className={toDo.completed ? "line-through" : ""}>
+                {toDo.text}
               </span>
             </span>
-            <RightDate> {todo.due.format("HH:MM A")}</RightDate>
+            <RightDate> {toDo.due.format("HH:MM A")}</RightDate>
           </ToDoItem>
         ))}
       </TodoContainer>
@@ -126,48 +114,7 @@ const ToDos = styled.div`
   }
 `;
 
-// HEADER
-
-const RightDate = styled.div`
-  color: rgb(182, 182, 182);
-  font-size: 0.7rem;
-  line-height: 1rem;
-`;
-
-const TodoContainer = styled.div`
-  margin-top: 20px;
-`;
-
-const Header = styled.div`
-  padding: 25px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  border-bottom: 1px solid rgb(240, 240, 240);
-  background-color: rgb(252, 252, 254);
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-`;
-
-const HeaderRight = styled.div`
-  padding-top: 10px;
-`;
-
-const HeaderDate = styled.div`
-  color: rgb(90, 99, 223);
-  text-align: left;
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-
-  & .light {
-    font-weight: 100;
-  }
-`;
-
-const HeaderSubDate = styled.div`
-  color: rgb(182, 182, 182);
-  text-align: left;
-`;
+// Header
 
 const AddToDoButton = styled.div`
   width: 40px;
@@ -185,6 +132,9 @@ const AddToDoButton = styled.div`
 `;
 
 // TODO ITEMS
+const TodoContainer = styled.div`
+  margin-top: 20px;
+`;
 
 const ToDoItem = styled.div`
   text-align: left;
@@ -202,6 +152,12 @@ const ToDoItem = styled.div`
 
 const CheckBox = styled.input`
   margin-right: 20px;
+`;
+
+const RightDate = styled.div`
+  color: rgb(182, 182, 182);
+  font-size: 0.7rem;
+  line-height: 1rem;
 `;
 
 // TODO FORM
