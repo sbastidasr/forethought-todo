@@ -33,6 +33,7 @@ const HeaderContainer = styled.div`
   background-color: rgb(252, 252, 254);
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
+  margin-bottom: 25px;
 `;
 
 const HeaderRight = styled.div`

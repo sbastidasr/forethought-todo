@@ -7,8 +7,6 @@ import ToDoForm from "./ToDoForm";
 import ToDoItem from "./ToDoItem";
 
 const ToDo = () => {
-  const [timeInput, setTimeInput] = useState("00:00");
-  const [textInput, setTextInput] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [toDos, setTodos] = useState(defaultTodos);
 
@@ -19,17 +17,13 @@ const ToDo = () => {
     setTodos(toDosCopy);
   };
 
-  const editItem = index => {
-    const edit = toDos[index];
-    setShowForm(true);
-    setTextInput(edit.text);
-    setTimeInput(edit.due.format("HH:mm"));
-    const toDosCopy = toDos.filter((_, i) => i !== index);
+  const editItem = (index, changes) => {
+    const toDosCopy = [...toDos];
+    toDosCopy[index] = { ...toDosCopy[index], ...changes };
     setTodos(toDosCopy);
   };
 
-  const addItem = e => {
-    e.preventDefault();
+  const addItem = (textInput, timeInput) => {
     if (!textInput.length) {
       setShowForm(false);
       return;
@@ -42,8 +36,7 @@ const ToDo = () => {
       },
       ...toDos
     ];
-    setTextInput("");
-    setTimeInput("00:00");
+
     setTodos(todosCopy);
     setShowForm(false);
   };
@@ -61,24 +54,33 @@ const ToDo = () => {
       {showForm && (
         <ToDoForm
           addItem={addItem}
-          textInput={textInput}
-          setTextInput={setTextInput}
-          timeInput={timeInput}
-          setTimeInput={setTimeInput}
           setShowForm={setShowForm}
+          addItemCallback={addItem}
         />
       )}
 
       <TodoContainer>
-        {toDos.map((toDo, index) => (
-          <ToDoItem
-            toDo={toDo}
-            key={index}
-            index={index}
-            editItem={editItem}
-            toggleItem={toggleItem}
-          />
-        ))}
+        {toDos.map((toDo, index) => {
+          if (toDo.editing)
+            return (
+              <ToDoForm
+                addItemCallback={addItem}
+                setShowForm={setShowForm}
+                toDo={toDo}
+                cancel={() => editItem(index, { editing: false })}
+              />
+            );
+
+          return (
+            <ToDoItem
+              toDo={toDo}
+              key={index}
+              index={index}
+              setEditing={() => editItem(index, { editing: true })}
+              toggleItem={toggleItem}
+            />
+          );
+        })}
       </TodoContainer>
       <div style={{ height: "30px" }} />
     </ToDos>
@@ -122,7 +124,7 @@ const AddToDoButton = styled.div`
 // TODO ITEMS
 
 const TodoContainer = styled.div`
-  margin-top: 20px;
+  // margin-top: 20px;
 `;
 
 export default ToDo;

@@ -2,10 +2,10 @@ import moment from "moment";
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const ToDoItem = ({ toDo, index, editItem, toggleItem }) => {
+const ToDoItem = ({ toDo, index, setEditing, toggleItem }) => {
   return (
     <ToDoItemContainer
-      onClick={() => editItem(index)}
+      onClick={() => setEditing(index)}
       completed={toDo.completed}
     >
       <span className={toDo.completed ? "completed" : ""}>

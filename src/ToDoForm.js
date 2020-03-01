@@ -2,14 +2,19 @@ import moment from "moment";
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const ToDoForm = ({
-  addItem,
-  textInput,
-  setTextInput,
-  timeInput,
-  setTimeInput,
-  setShowForm
-}) => {
+const ToDoForm = ({ addItemCallback, cancel, toDo }) => {
+  // console.
+  const [timeInput, setTimeInput] = useState(
+    toDo ? toDo.due.format("HH:mm") : "00:00"
+  );
+  const [textInput, setTextInput] = useState(toDo ? toDo.text : "");
+
+  const addItem = e => {
+    e.preventDefault();
+    addItemCallback(textInput, timeInput);
+    setTextInput("");
+    setTimeInput("00:00");
+  };
   return (
     <InputForm onSubmit={addItem}>
       <input
@@ -25,12 +30,7 @@ const ToDoForm = ({
         onChange={e => setTimeInput(e.target.value)}
       />
       <input className="add-button" type="submit" value="Save" />
-      <input
-        className="add-button"
-        type="button"
-        value="X"
-        onClick={() => setShowForm(false)}
-      />
+      <input className="add-button" type="button" value="X" onClick={cancel} />
     </InputForm>
   );
 };
