@@ -46,20 +46,18 @@ const ToDo = () => {
       <Header toDos={toDos} />
 
       {!showForm && (
-        <AddToDoButton onClick={() => setShowForm(!showForm)}>
-          {showForm ? "-" : "+"}
-        </AddToDoButton>
+        <AddToDoButton onClick={() => setShowForm(!showForm)}>+</AddToDoButton>
       )}
 
       {showForm && (
         <ToDoForm
-          addItem={addItem}
           setShowForm={setShowForm}
           addItemCallback={addItem}
+          cancel={() => setShowForm(false)}
         />
       )}
 
-      <TodoContainer>
+      <div>
         {toDos.map((toDo, index) => {
           if (toDo.editing)
             return (
@@ -87,13 +85,11 @@ const ToDo = () => {
             />
           );
         })}
-      </TodoContainer>
+      </div>
       <div style={{ height: "30px" }} />
     </ToDos>
   );
 };
-
-// MAIN CONTAINER
 
 const ToDos = styled.div`
   width: 90%;
@@ -110,8 +106,6 @@ const ToDos = styled.div`
   }
 `;
 
-// HEADER
-
 const AddToDoButton = styled.div`
   width: 40px;
   height: 40px;
@@ -125,12 +119,6 @@ const AddToDoButton = styled.div`
   top: 85px;
   color: white;
   background-color: rgb(234, 116, 109);
-`;
-
-// TODO ITEMS
-
-const TodoContainer = styled.div`
-  // margin-top: 20px;
 `;
 
 export default ToDo;

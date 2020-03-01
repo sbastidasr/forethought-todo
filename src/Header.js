@@ -22,8 +22,6 @@ const Header = ({ toDos }) => {
 
 export default Header;
 
-// HEADER
-
 const HeaderContainer = styled.div`
   padding: 25px;
   display: flex;

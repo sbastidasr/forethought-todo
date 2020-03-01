@@ -1,9 +1,7 @@
-import moment from "moment";
 import React, { useState } from "react";
 import styled from "styled-components";
 
 const ToDoForm = ({ addItemCallback, cancel, toDo }) => {
-  // console.
   const [timeInput, setTimeInput] = useState(
     toDo ? toDo.due.format("HH:mm") : "00:00"
   );
