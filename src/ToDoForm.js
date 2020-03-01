@@ -11,6 +11,7 @@ const ToDoForm = ({ addItemCallback, cancel, toDo }) => {
 
   const addItem = e => {
     e.preventDefault();
+
     addItemCallback(textInput, timeInput);
     setTextInput("");
     setTimeInput("00:00");

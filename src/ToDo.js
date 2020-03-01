@@ -64,7 +64,13 @@ const ToDo = () => {
           if (toDo.editing)
             return (
               <ToDoForm
-                addItemCallback={addItem}
+                addItemCallback={(textInput, timeInput) => {
+                  editItem(index, {
+                    text: textInput,
+                    due: moment(timeInput, "HH:mm"),
+                    editing: false
+                  });
+                }}
                 setShowForm={setShowForm}
                 toDo={toDo}
                 cancel={() => editItem(index, { editing: false })}
