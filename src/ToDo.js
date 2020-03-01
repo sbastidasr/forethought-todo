@@ -7,7 +7,7 @@ import Header from "./Header";
 const ToDo = () => {
   const [timeInput, setTimeInput] = useState("00:00");
   const [textInput, setTextInput] = useState("");
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(true);
   const [toDos, setTodos] = useState(defaultTodos);
 
   const toggleItem = (e, index) => {
@@ -33,12 +33,12 @@ const ToDo = () => {
       return;
     }
     const todosCopy = [
-      ...toDos,
       {
         text: textInput,
         completed: false,
         due: moment(timeInput, "HH:mm")
-      }
+      },
+      ...toDos
     ];
     setTextInput("");
     setTimeInput("00:00");
@@ -50,9 +50,11 @@ const ToDo = () => {
     <ToDos>
       <Header toDos={toDos} />
 
-      <AddToDoButton onClick={() => setShowForm(!showForm)}>
-        {showForm ? "-" : "+"}
-      </AddToDoButton>
+      {!showForm && (
+        <AddToDoButton onClick={() => setShowForm(!showForm)}>
+          {showForm ? "-" : "+"}
+        </AddToDoButton>
+      )}
 
       {showForm && (
         <InputForm onSubmit={addItem}>
@@ -69,6 +71,12 @@ const ToDo = () => {
             onChange={e => setTimeInput(e.target.value)}
           />
           <input className="add-button" type="submit" value="Save" />
+          <input
+            className="add-button"
+            type="button"
+            value="X"
+            onClick={() => setShowForm(false)}
+          />
         </InputForm>
       )}
 
@@ -172,18 +180,26 @@ const InputForm = styled.form`
   padding: 20px;
   display: flex;
   height: 100%;
+  color: rgb(182, 182, 182);
+
   & input {
     padding: 5px;
     font-size: 0.8rem;
+    border: 1px solid rgb(182, 182, 182);
+    border-radius: 3px;
+    margin-right: 5px;
   }
+
   & .input {
-    width: calc(100% - 120px);
+    width: calc(100% - 160px);
   }
 
   & .add-button {
-    margin-top: 5px;
-    margin-left: 10px;
     display: inline-block;
+  }
+
+  & .add-button:last-of-type {
+    margin-right: 0px;
   }
 `;
 
