@@ -3,11 +3,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import defaultTodos from "./defaultTodos";
 import Header from "./Header";
+import ToDoForm from "./ToDoForm";
+import ToDoItem from "./ToDoItem";
 
 const ToDo = () => {
   const [timeInput, setTimeInput] = useState("00:00");
   const [textInput, setTextInput] = useState("");
-  const [showForm, setShowForm] = useState(true);
+  const [showForm, setShowForm] = useState(false);
   const [toDos, setTodos] = useState(defaultTodos);
 
   const toggleItem = (e, index) => {
@@ -57,49 +59,25 @@ const ToDo = () => {
       )}
 
       {showForm && (
-        <InputForm onSubmit={addItem}>
-          <input
-            type="text"
-            className="input"
-            placeholder="New Todo"
-            value={textInput}
-            onChange={e => setTextInput(e.target.value)}
-          />
-          <input
-            type="time"
-            value={timeInput}
-            onChange={e => setTimeInput(e.target.value)}
-          />
-          <input className="add-button" type="submit" value="Save" />
-          <input
-            className="add-button"
-            type="button"
-            value="X"
-            onClick={() => setShowForm(false)}
-          />
-        </InputForm>
+        <ToDoForm
+          addItem={addItem}
+          textInput={textInput}
+          setTextInput={setTextInput}
+          timeInput={timeInput}
+          setTimeInput={setTimeInput}
+          setShowForm={setShowForm}
+        />
       )}
 
       <TodoContainer>
         {toDos.map((toDo, index) => (
           <ToDoItem
-            onClick={() => editItem(index)}
-            completed={toDo.completed}
+            toDo={toDo}
             key={index}
-          >
-            <span className={toDo.completed ? "completed" : ""}>
-              <CheckBox
-                type="checkbox"
-                checked={toDo.completed}
-                onClick={e => toggleItem(e, index)}
-                readOnly
-              />
-              <span className={toDo.completed ? "line-through" : ""}>
-                {toDo.text}
-              </span>
-            </span>
-            <RightDate> {toDo.due.format("HH:MM A")}</RightDate>
-          </ToDoItem>
+            index={index}
+            editItem={editItem}
+            toggleItem={toggleItem}
+          />
         ))}
       </TodoContainer>
       <div style={{ height: "30px" }} />
@@ -145,62 +123,6 @@ const AddToDoButton = styled.div`
 
 const TodoContainer = styled.div`
   margin-top: 20px;
-`;
-
-const ToDoItem = styled.div`
-  text-align: left;
-  border-bottom: 1px solid rgb(235, 235, 235);
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-
-  ${props => (props.completed ? "color: rgb(182, 182, 182);" : "")}
-
-  & .line-through {
-    text-decoration: line-through;
-  }
-`;
-
-const CheckBox = styled.input`
-  margin-right: 20px;
-  background-color: red;
-`;
-
-const RightDate = styled.div`
-  color: rgb(182, 182, 182);
-  font-size: 0.7rem;
-  line-height: 1rem;
-`;
-
-// TODO FORM
-
-const InputForm = styled.form`
-  text-align: left;
-  border-bottom: 1px solid rgb(240, 240, 240);
-  padding: 20px;
-  display: flex;
-  height: 100%;
-  color: rgb(182, 182, 182);
-
-  & input {
-    padding: 5px;
-    font-size: 0.8rem;
-    border: 1px solid rgb(182, 182, 182);
-    border-radius: 3px;
-    margin-right: 5px;
-  }
-
-  & .input {
-    width: calc(100% - 160px);
-  }
-
-  & .add-button {
-    display: inline-block;
-  }
-
-  & .add-button:last-of-type {
-    margin-right: 0px;
-  }
 `;
 
 export default ToDo;
