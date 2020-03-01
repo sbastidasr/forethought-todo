@@ -16,6 +16,7 @@ const ToDo = () => {
     toDosCopy[index].completed = !toDosCopy[index].completed;
     setTodos(toDosCopy);
   };
+
   const editItem = index => {
     const edit = toDos[index];
     setShowForm(true);
@@ -48,6 +49,7 @@ const ToDo = () => {
   return (
     <ToDos>
       <Header toDos={toDos} />
+
       <AddToDoButton onClick={() => setShowForm(!showForm)}>
         {showForm ? "-" : "+"}
       </AddToDoButton>
@@ -114,7 +116,7 @@ const ToDos = styled.div`
   }
 `;
 
-// Header
+// HEADER
 
 const AddToDoButton = styled.div`
   width: 40px;
@@ -132,6 +134,7 @@ const AddToDoButton = styled.div`
 `;
 
 // TODO ITEMS
+
 const TodoContainer = styled.div`
   margin-top: 20px;
 `;
@@ -152,6 +155,7 @@ const ToDoItem = styled.div`
 
 const CheckBox = styled.input`
   margin-right: 20px;
+  background-color: red;
 `;
 
 const RightDate = styled.div`
